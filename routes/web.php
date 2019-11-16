@@ -14,3 +14,26 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test', function () {
+    return view('test');
+});
+
+
+Route::get('/wildcard/{wildcard}', function ($wildcard) {
+    $wildcards = [
+        'one' => 'First wildcard!',
+        'two' => 'Second wildcard!',
+        'three' => 'Third wildcard!',
+    ];
+
+    if (! array_key_exists($wildcard,$wildcards)) {
+        abort(404, 'Sorry not found!');
+    }
+
+    return view('wildcard', [
+        'wildcard' => $wildcards[$wildcard]
+    ]);
+});
+
+Route::get('/posts/{post}', 'PostsController@show');
