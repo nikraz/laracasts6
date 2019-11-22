@@ -5,23 +5,21 @@
         <div id="page" class="container">
             <div id="content">
                 <div class="title">
-                    <h2>New Article</h2>
+                    <h2>Update Article</h2>
                 </div>
-                <form action="/articles" method="post">
+                <form action="/articles/{{ $article->id }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <label class="label" for="title">Title</label>
                     <div class="control">
-                        <input class="input {{ $errors->has('title') ? 'is-danger' : '' }}" type="text" name="title" id="title"/>
-                        @if($errors->has('title'))
-                        <p class="help is-danger">{{ $errors->first('title') }}</p>
-                        @endif
+                        <input class="input" type="text" name="title" id="title" value="{{ $article->title }}"/>
                     </div>
 
                     <div class="field">
                         <label class="label" for="excerpt">Excerpt</label>
 
                         <div class="control">
-                            <textarea class="textarea" name="excerpt"></textarea>
+                            <textarea class="textarea" name="excerpt">{{ $article->excerpt }}</textarea>
                         </div>
                     </div>
 
@@ -29,7 +27,7 @@
                         <label class="label" for="body">Body</label>
 
                         <div class="control">
-                            <textarea class="textarea" name="body"></textarea>
+                            <textarea class="textarea" name="body">{{ $article->body }}</textarea>
                         </div>
                     </div>
                     <div class="field is-grouped">

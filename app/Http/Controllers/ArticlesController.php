@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 class ArticlesController extends Controller
 {
     public function index() {
-        return view('articles.show', ['article'=>$article]);
+        return view('articles.create');
     }
 
-    public function show($articleId) {
-        $article = Article::find($articleId);
+    public function show($id) {
+        $article = Article::find($id);
 
         return view('articles.show', ['article'=>$article]);
     }
@@ -22,9 +22,49 @@ class ArticlesController extends Controller
     }
 
     public function store() {
-dd(
-    2134
-);    }
+
+        \request()->validate([
+            'title' => ['required'],
+            'excerpt' => ['required'],
+            'body' => ['required'],
+        ]);
+
+        $article = new Article();
+
+        $article->title = \request('title');
+        $article->body = \request('body');
+        $article->excerpt = \request('excerpt');
+
+        $article->save();
+
+        return redirect('/articles');
+   }
+
+    public function edit($id) {
+
+        $article = Article::find($id);
+
+        return view('articles.edit', ['article'=>$article]);
+   }
+
+    public function update($id) {
+
+        \request()->validate([
+            'title' => ['required'],
+            'excerpt' => ['required'],
+            'body' => ['required'],
+        ]);
+        
+        $article = Article::find($id);
+
+        $article->title = \request('title');
+        $article->body = \request('body');
+        $article->excerpt = \request('excerpt');
+
+        $article->save();
+
+        return redirect('/articles/'.$article->id);
+    }
 
 
 }
